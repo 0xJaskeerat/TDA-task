@@ -11,87 +11,47 @@ import {
 } from 'recharts';
 
 const ScenarioCharts = ({ response }) => {
-  const scenarioData = [
-    {
-      name: 'Economic Value Added',
-      scenarioA: response.scenerioA.chartData.economicValueAdded,
-      scenarioB: response.scenerioB.chartData.economicValueAdded,
-      scenarioC: response.scenerioC.chartData.economicValueAdded,
-    },
-    {
-      name: 'Profit',
-      scenarioA: response.scenerioA.chartData.profit,
-      scenarioB: response.scenerioB.chartData.profit,
-      scenarioC: response.scenerioC.chartData.profit,
-    },
-    {
-      name: 'Cost of Capital',
-      scenarioA: response.scenerioA.chartData.costOfCapital,
-      scenarioB: response.scenerioB.chartData.costOfCapital,
-      scenarioC: response.scenerioC.chartData.costOfCapital,
-    },
-    {
-      name: 'EBITDA',
-      scenarioA: response.scenerioA.chartData.EBITDA,
-      scenarioB: response.scenerioB.chartData.EBITDA,
-      scenarioC: response.scenerioC.chartData.EBITDA,
-    },
-    {
-      name: 'Taxes, Interest, Depreciation, Amortization',
-      scenarioA: response.scenerioA.chartData.taxesInterestsDepreciationAmortization,
-      scenarioB: response.scenerioB.chartData.taxesInterestsDepreciationAmortization,
-      scenarioC: response.scenerioC.chartData.taxesInterestsDepreciationAmortization,
-    },
-    {
-      name: 'WACC',
-      scenarioA: response.scenerioA.chartData.WACC,
-      scenarioB: response.scenerioB.chartData.WACC,
-      scenarioC: response.scenerioC.chartData.WACC,
-    },
-    {
-      name: 'Total Capital Invested',
-      scenarioA: response.scenerioA.chartData.totalCapitalInvested,
-      scenarioB: response.scenerioB.chartData.totalCapitalInvested,
-      scenarioC: response.scenerioC.chartData.totalCapitalInvested,
-    },
-    {
-      name: 'Revenue',
-      scenarioA: response.scenerioA.chartData.revenue,
-      scenarioB: response.scenerioB.chartData.revenue,
-      scenarioC: response.scenerioC.chartData.revenue,
-    },
-    {
-      name: 'Fixed Capital',
-      scenarioA: response.scenerioA.chartData.fixedCapital,
-      scenarioB: response.scenerioB.chartData.fixedCapital,
-      scenarioC: response.scenerioC.chartData.fixedCapital,
-    },
-    {
-      name: 'Working Capital',
-      scenarioA: response.scenerioA.chartData.workingCapital,
-      scenarioB: response.scenerioB.chartData.workingCapital,
-      scenarioC: response.scenerioC.chartData.workingCapital,
-    }
-  ];
+  const scenerios = ['scenerioA', 'scenerioB', 'scenerioC'];
+  const scenerioProperties = Object.keys(response.scenerioA.chartData)
+
+  const scenerioData = scenerioProperties.map(property => {
+    const data = { name: property };
+    scenerios.forEach(scenerio => {
+      data[scenerio] = response[scenerio]?.chartData?.[property] || 0;
+    });
+    return data;
+  });
 
   return (
-    <div>
+    <>
       <h2>Output Charts</h2>
-      <ResponsiveContainer width="80%" aspect={3}>
-        <BarChart width={1000} height={400} data={scenarioData}>
-          <CartesianGrid strokeDasharray="2 2" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="scenarioA" fill="#F11A7B" name="Scenario A" />
-          <Bar dataKey="scenarioB" fill="#1A5D1A" name="Scenario B" />
-          <Bar dataKey="scenarioC" fill="#FFB84C" name="Scenario C" />
-        </BarChart>
-
-      </ResponsiveContainer>
-    </div>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <ResponsiveContainer width="80%" aspect={3}>
+          <BarChart width={500} height={300} data={scenerioData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            {scenerios.map((scenerio, index) => (
+              <Bar
+                key={scenerio}
+                dataKey={scenerio}
+                fill={getColor(index)}
+                name={scenerio}
+              />
+            ))}
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </>
   );
+};
+
+// Helper function to generate a random color
+const getColor = (index) => {
+  const colors = ['#EA1179', '#1A5D1A', '#FFB84C'];
+  return colors[index % colors.length];
 };
 
 export default ScenarioCharts;
