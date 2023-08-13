@@ -24,7 +24,7 @@ const ScenarioCharts = ({ response }) => {
 
   return (
     <>
-      <h2>Output Charts</h2>
+      <h2 style={{ textAlign: 'center' }}>Output Charts</h2>
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <ResponsiveContainer width="80%" aspect={3}>
           <BarChart width={500} height={300} data={scenerioData}>

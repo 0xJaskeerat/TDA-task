@@ -7,8 +7,10 @@ function App() {
 
   return (
     <div>
-      <h1>EVA Model Calculator</h1>
+      <h1 style={{ textAlign: 'center'}}>EVA Model Calculator</h1>
       <UserInputForm setApiResponse={setApiResponse} />
+      <br />
+      <br />
       {apiResponse && <ScenarioCharts response={apiResponse} />}
     </div>
   );
