@@ -47,7 +47,8 @@ const UserInputForm = ({ setApiResponse }) => {
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    padding: '12px 28px'
+                    padding: '12px 28px',
+                    marginTop: '30px'
                 }}
                 labelCol={{
                     span: 8,
